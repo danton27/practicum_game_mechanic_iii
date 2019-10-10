@@ -7,8 +7,15 @@ public class PlayerController : MonoBehaviour
 {
     bool isJump = true;
     bool isDead = false;
+    bool isFacingRight = true;
+    bool isFacingLeft = false;
     int idMove = 0;
     Animator anim;
+    public GameObject Projectile; // object peluru
+    public Vector2 projectileVelocity; // kecepatan peluru
+    public Vector2 projectileOffset; // jarak posisi peluru dari posisi player
+    public float cooldown = 0.5f; // jeda waktu untuk menembak
+    public static bool isCanShoot = false; // memastikan untuk kapan dapat menembak
     
     // Use this for initialization
     private void Start()
@@ -20,28 +27,84 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //Debug.Log("Jump "+isJump);
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (!isDead)
         {
-            MoveLeft();
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                MoveLeft();
+            }
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                MoveRight();
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Jump();
+            }
+            if (Input.GetKeyUp(KeyCode.RightArrow))
+            {
+                Idle();
+            }
+            if (Input.GetKeyUp(KeyCode.LeftArrow))
+            {
+                Idle();
+            }
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                Fire();
+            }
+            Move();
+            Dead();
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+
+    }
+
+    void Fire()
+    {
+        if (isCanShoot)
         {
-            MoveRight();
+            // Membuat projectile baru
+            GameObject bullet = Instantiate(Projectile, (Vector2)transform.position - projectileOffset * transform.localScale.x, Quaternion.identity);
+
+            if (isFacingLeft)
+            {
+                bullet.GetComponent<SpriteRenderer>().flipX = true;
+            } else if (isFacingRight)
+            {
+                bullet.GetComponent<SpriteRenderer>().flipX = false;
+            }
+
+            // Mengatur kecepatan dari projectile
+            Vector2 velocity = new Vector2(projectileVelocity.x * transform.localScale.x, projectileVelocity.y);
+            bullet.GetComponent<Rigidbody2D>().velocity = velocity * 1;
+
+            // //  Menyesuaikan scale dari projectile dengan scale karakter
+            // Vector3 scale = transform.localScale;
+            // bullet.transform.localScale = scale * -1;
+
+            StartCoroutine(CanShoot());
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+    }
+
+    IEnumerator CanShoot()
+    {
+        anim.SetTrigger("shoot");
+        isCanShoot = false;
+        yield return new WaitForSeconds(cooldown);
+        isCanShoot = true;
+    }
+
+    void OnCollisionEnter2D (Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Enemy"))
         {
-            Jump();
+            isDead = true;
+            anim.SetTrigger("dead");
         }
-        if (Input.GetKeyUp(KeyCode.RightArrow))
+        if (col.gameObject.CompareTag("Ammo"))
         {
-            Idle();
+            isCanShoot = true;
         }
-        if (Input.GetKeyUp(KeyCode.LeftArrow))
-        {
-            Idle();
-        }
-        Move();
-        Dead();
     }
     
     private void OnCollisionStay2D(Collision2D collision)
@@ -68,11 +131,15 @@ public class PlayerController : MonoBehaviour
     public void MoveRight()
     {
         idMove = 1;
+        isFacingRight = true;
+        isFacingLeft = false;
     }
     
     public void MoveLeft()
     {
         idMove = 2;
+        isFacingRight = false;
+        isFacingLeft = true;
     }
     
     private void Move()
@@ -82,14 +149,14 @@ public class PlayerController : MonoBehaviour
             // Kondisi ketika bergerak ke kekanan
             if (!isJump) anim.SetTrigger("run");
             transform.Translate(1 * Time.deltaTime * 2f, 0, 0);
-            transform.localScale = new Vector3(0.0738468f, 0.0738468f, 0.0738468f);
+            transform.localScale = new Vector3(0.138468f, 0.138468f, 1f);
         }
         if (idMove == 2 && !isDead)
         {
             // Kondisi ketika bergerak ke kiri
             if (!isJump) anim.SetTrigger("run");
             transform.Translate(-1 * Time.deltaTime * 2f, 0, 0);
-            transform.localScale = new Vector3(-0.0738468f, 0.0738468f, 0.0738468f);
+            transform.localScale = new Vector3(-0.138468f, 0.138468f, 1f);
         }
     }
     
@@ -106,7 +173,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.transform.tag.Equals("Coin"))
         {
-            //Data.score += 15;
+            Data.score += 15;
             Destroy(collision.gameObject);
         }
     }
@@ -127,7 +194,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isDead)
         {
-            if (transform.position.y < -10f)
+            if (transform.position.y < -5f)
             {
                 // kondisi ketika jatuh
                 isDead = true;
