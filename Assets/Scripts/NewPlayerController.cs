@@ -11,6 +11,7 @@ public class NewPlayerController : MonoBehaviour
     bool isDead = false;
     bool isFacingRight = true;
     bool isFacingLeft = false;
+    static int attacked = 0;
     int idMove = 0;
     Animator anim;
     public GameObject Projectile; // object peluru
@@ -70,11 +71,22 @@ public class NewPlayerController : MonoBehaviour
 
     void TakeDamage(int damage)
     {
-        HP -= damage;
+        switch(attacked)
+        {
+            case 1:
+                HP -= (damage * 2);
+                attacked = 0;
+                break;
+            case 0:
+                HP -= damage;
+                break;
+        }
+
         switch(HP)
         {
             case 5:
                 Data.ammo += 3;
+                Debug.Log("Angry mode active, ammo + 3");
                 break;
             case 0:
                 isDead = true;
@@ -82,6 +94,14 @@ public class NewPlayerController : MonoBehaviour
                 Destroy(this.gameObject, 2f);
                 break;
         }
+        attacked = 1;
+        StartCoroutine(BeginAttackedCombo());
+    }
+
+    IEnumerator BeginAttackedCombo()
+    {
+        yield return new WaitForSeconds(2);
+        attacked = 0;
     }
 
     void Fire()

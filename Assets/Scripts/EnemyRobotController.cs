@@ -8,6 +8,7 @@ public class EnemyRobotController : MonoBehaviour {
     bool isCanShoot = true;
     public int HP = 10;
     bool isDie = false;
+    static int attacked = 0;
     public bool isFacingLeft;
     public GameObject Projectile; // object peluru
     public Vector2 projectileVelocity; // kecepatan peluru
@@ -34,7 +35,20 @@ public class EnemyRobotController : MonoBehaviour {
 
     void TakeDamage(int damage)
     {
-        HP -= damage;
+        switch(attacked)
+        {
+            case 1:
+                HP -= (damage * 2);
+                attacked = 0;
+                break;
+            case 0:
+                HP -= damage;
+                break;
+        }
+
+        attacked = 1;
+        StartCoroutine(BeginAttackedCombo());
+
         if (HP <= 0)
         {
             isDie = true;
@@ -42,6 +56,12 @@ public class EnemyRobotController : MonoBehaviour {
             Data.score += 20;
             Destroy(this.gameObject, 2f);
         }
+    }
+
+    IEnumerator BeginAttackedCombo()
+    {
+        yield return new WaitForSeconds(2);
+        attacked = 0;
     }
 
 
