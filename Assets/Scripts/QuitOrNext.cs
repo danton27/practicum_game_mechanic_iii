@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class QuitOrNext : MonoBehaviour
 {
     public string NameScene = "";
+    public GameObject winCond;
+    public GameObject player;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,12 +27,15 @@ public class QuitOrNext : MonoBehaviour
     {
         if (collision.tag.Equals("Player"))
         {
-            if (Data.score >= 120 )
-            {
-                Debug.Log("EndPoint");
-            } else {
-                Debug.Log("Your coin is not enough to go to the next stage!!");
-            }
+            player.SetActive(false);
+            this.gameObject.SetActive(false);
+            winCond.SetActive(true);
+            // if (Data.score >= 120 )
+            // {
+            //     Debug.Log("EndPoint");
+            // } else {
+            //     Debug.Log("Your coin is not enough to go to the next stage!!");
+            // }
             //SceneManager.LoadScene(NameScene);
         }
     }

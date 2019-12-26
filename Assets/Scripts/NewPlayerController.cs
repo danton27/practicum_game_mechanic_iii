@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class NewPlayerController : MonoBehaviour
 {
+    public GameObject loseCond;
     public static int HP = 20;
     public int ammo = 0;
     bool isJump = true;
@@ -91,8 +92,15 @@ public class NewPlayerController : MonoBehaviour
             case 0:
                 isDead = true;
                 anim.SetTrigger("dead");
-                Destroy(this.gameObject, 2f);
+                this.gameObject.SetActive(false);
+                loseCond.SetActive(true);
                 break;
+        }
+        if (HP < 0) {
+            isDead = true;
+            anim.SetTrigger("dead");
+            this.gameObject.SetActive(false);
+            loseCond.SetActive(true);
         }
         attacked = 1;
         StartCoroutine(BeginAttackedCombo());
@@ -104,11 +112,15 @@ public class NewPlayerController : MonoBehaviour
         attacked = 0;
     }
 
-    void Fire()
+    public void Fire()
     {
+        if (Data.ammo == 0) {
+            return ;
+        }
         if (isCanShoot)
         {
             Data.ammo -= 1;
+
             // Membuat projectile baru
             GameObject bullet = Instantiate(Projectile, (Vector2)transform.position - projectileOffset * transform.localScale.x, Quaternion.identity);
 
@@ -146,6 +158,8 @@ public class NewPlayerController : MonoBehaviour
         {
             isDead = true;
             anim.SetTrigger("dead");
+            this.gameObject.SetActive(false);
+            loseCond.SetActive(true);
         }
     }
     
@@ -247,6 +261,7 @@ public class NewPlayerController : MonoBehaviour
                 isDead = true;
                 HP = 0;
                 Destroy(this.gameObject);
+                loseCond.SetActive(true);
             }
         }
     }
