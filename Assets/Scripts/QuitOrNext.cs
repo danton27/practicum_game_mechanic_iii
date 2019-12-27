@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*
+ *   Copyright (c) 2019 NotSlimBoy
+ *   All rights reserved.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
