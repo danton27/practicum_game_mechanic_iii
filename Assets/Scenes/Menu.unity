@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -269,7 +270,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -32}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &329462186
@@ -322,9 +323,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1242022567}
-        m_MethodName: setVolume
-        m_Mode: 4
+      - m_Target: {fileID: 1337086498}
+        m_MethodName: Volume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1472758424}
+        m_MethodName: set_volume
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -408,14 +420,16 @@ MonoBehaviour:
     Designer - Programmer - Artist
 
 
-    Ulwan Shidqi
+    Ulwan
+    Shidqi
 
     Sound Engineer
 
 
     Praktikum Mekanika Game 2
 
-    Mohamad Safrodin, B.Sc, MT
+    Mohamad Safrodin,
+    B.Sc, MT
 
 '
 --- !u!222 &349044949
@@ -1668,6 +1682,7 @@ GameObject:
   - component: {fileID: 1337086497}
   - component: {fileID: 1337086500}
   - component: {fileID: 1337086499}
+  - component: {fileID: 1337086498}
   m_Layer: 5
   m_Name: VolumePercentText
   m_TagString: Untagged
@@ -1694,6 +1709,18 @@ RectTransform:
   m_AnchoredPosition: {x: 126, y: -31}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1337086498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337086496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3145b51593ce441694a804a2e3a4593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1337086499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1744,6 +1771,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1472758425}
   - component: {fileID: 1472758424}
+  - component: {fileID: 1472758426}
   m_Layer: 0
   m_Name: Audio Source
   m_TagString: Untagged
@@ -1861,6 +1889,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1472758426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472758423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a3213d33753cd85dbba940b4fee5442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1480509863
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class QuitOrNext : MonoBehaviour
 {
     public string NameScene = "";
+    public GameObject panelWinLose;
     public GameObject winCond;
     public GameObject player;
     // Start is called before the first frame update
@@ -29,6 +30,7 @@ public class QuitOrNext : MonoBehaviour
         {
             player.SetActive(false);
             this.gameObject.SetActive(false);
+            panelWinLose.SetActive(true);
             winCond.SetActive(true);
             // if (Data.score >= 120 )
             // {

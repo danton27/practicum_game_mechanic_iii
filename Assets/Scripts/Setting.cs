@@ -5,8 +5,19 @@ using UnityEngine.UI;
 
 public class Setting : MonoBehaviour
 {
-    public void setVolume (float volume)
-    {
-        Debug.Log(volume);
-    }
+    Text persenTeks;
+    private float volume;
+   // teks untuk persen
+
+   void Start() 
+   {
+       persenTeks = GetComponent<Text>();
+   }
+   public void Volume (float value) {
+       volume = Mathf.RoundToInt(value * 100);
+       Audio.volume = volume;
+       persenTeks.text = Audio.volume + "%";
+   }
+
+   
 }

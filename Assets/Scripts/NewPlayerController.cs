@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class NewPlayerController : MonoBehaviour
 {
+    public GameObject PanelWinLose;
     public GameObject loseCond;
     public static int HP = 20;
     public int ammo = 0;
@@ -93,13 +94,16 @@ public class NewPlayerController : MonoBehaviour
                 isDead = true;
                 anim.SetTrigger("dead");
                 this.gameObject.SetActive(false);
+                PanelWinLose.SetActive(true);
                 loseCond.SetActive(true);
                 break;
         }
         if (HP < 0) {
+            HP = 0;
             isDead = true;
             anim.SetTrigger("dead");
             this.gameObject.SetActive(false);
+            PanelWinLose.SetActive(true);
             loseCond.SetActive(true);
         }
         attacked = 1;
@@ -159,6 +163,7 @@ public class NewPlayerController : MonoBehaviour
             isDead = true;
             anim.SetTrigger("dead");
             this.gameObject.SetActive(false);
+            PanelWinLose.SetActive(true);
             loseCond.SetActive(true);
         }
     }
@@ -261,6 +266,7 @@ public class NewPlayerController : MonoBehaviour
                 isDead = true;
                 HP = 0;
                 Destroy(this.gameObject);
+                PanelWinLose.SetActive(true);
                 loseCond.SetActive(true);
             }
         }
